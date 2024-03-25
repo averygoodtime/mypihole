@@ -20,7 +20,7 @@ services:
     env_file: .env
     cap_add:
       - "NET_ADMIN"
-    restart: unless-stopped
+    restart: always
 #Wireguard for use outside of network e.g. Mobile Devices
   wireguard:
     container_name: wireguard
@@ -42,13 +42,13 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
-    restart: unless-stopped
+    restart: always
     env_file: .env
 #Unbound as recursive DNS Server for PiHole
   unbound:
     container_name: unbound
-    image: mvance/unbound
-#    platform: linux/arm64/v8
+    image: alpinelinux/unbound
+#    platform: linux/arm64/v8 #if for example you want to use mvance/unbound on a pi(4)
     networks:
       wirehole:
         ipv4_address: IP_ADDRESS #set a static IP for unbound. Make sure to edit .env accordingly
